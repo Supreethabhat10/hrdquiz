@@ -105,10 +105,23 @@
     localStorage.setItem('quizScore', score);
   }
 
-  function downloadCertificate() {
-    const element = document.getElementById('certificate');
-    html2pdf().from(element).save(`${localStorage.getItem('userName')}_Certificate.pdf`);
-  }
+function downloadCertificate() {
+  const element = document.getElementById('certificate');
+  element.style.display = 'block'; // 🔁 Make visible before capture
+
+  const opt = {
+    margin:       0,
+    filename:     `${localStorage.getItem('userName')}_Certificate.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+  };
+
+  html2pdf().set(opt).from(element).save().then(() => {
+    element.style.display = 'none'; // 🔁 Hide again after save
+  });
+}
+
 </script>
 
 </body>
