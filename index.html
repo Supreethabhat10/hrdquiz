@@ -5,23 +5,49 @@
   <title>Quiz App</title>
   <script src="libs/html2pdf.bundle.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; background: #eef2f7; padding: 40px; text-align: center; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      padding: 40px;
+      text-align: center;
+    }
     .quiz-container, .result-box {
-      max-width: 700px; background: #fff; padding: 30px;
-      border-radius: 10px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 700px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h1 { text-align: center; }
-    .question { margin-top: 20px; text-align: left; }
-    .options { margin-left: 20px; text-align: left; }
+    .question {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .options {
+      margin-left: 20px;
+      text-align: left;
+    }
     .btn {
-      background: #3498db; color: white; padding: 10px 20px;
-      margin-top: 30px; border: none; border-radius: 6px; cursor: pointer;
+      background: #3498db;
+      color: white;
+      padding: 10px 20px;
+      margin-top: 30px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
-    .form-group { margin-bottom: 20px; text-align: left; }
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
     #certificate {
-      display: none; width: 1100px; height: 800px;
-      background-image: url('background.png'); background-size: cover;
-      padding-top: 300px; text-align: center;
+      display: none;
+      background-image: url('background.png');
+      background-size: cover;
+      width: 1100px;
+      height: 800px;
+      text-align: center;
+      padding-top: 300px;
     }
   </style>
 </head>
@@ -43,8 +69,8 @@
   <button class="btn" onclick="downloadCertificate()">Download Certificate</button>
 </div>
 
-<!-- Hidden certificate for html2pdf -->
-<div id="certificate" style="display: none; background-image: url('background.png'); background-size: cover; width: 1100px; height: 800px; text-align: center; padding-top: 300px;">
+<!-- Hidden Certificate Template -->
+<div id="certificate">
   <h1 style="font-size: 40px;">Certificate of Completion</h1>
   <p style="font-size: 24px;">Presented to</p>
   <h2 id="certName" style="font-size: 36px; font-weight: bold;"></h2>
@@ -94,27 +120,21 @@
       }
     });
 
-    // Show result
-    document.getElementById('quizContainer').style.display = 'none';
-    document.getElementById('resultBox').style.display = 'block';
-    document.getElementById('userScore').innerText = `${name}, your score is ${score}/${questions.length}`;
-    document.getElementById('certName').innerText = name;
-
-    // Save for certificate
     localStorage.setItem('userName', name);
     localStorage.setItem('quizScore', score);
+
+    document.getElementById('quizContainer').style.display = 'none';
+    document.getElementById('resultBox').style.display = 'block';
+
+    document.getElementById('userScore').innerText = `${name}, your score is ${score} / ${questions.length}`;
+    document.getElementById('certName').innerText = name;
   }
 
-<script>
   function downloadCertificate() {
+    const element = document.getElementById('certificate');
+    element.style.display = 'block';
+
     const name = localStorage.getItem('userName') || 'Participant';
-    const certDiv = document.getElementById('certificate');
-    document.getElementById('certName').innerText = name;
-
-    // ✅ Show certificate before PDF generation
-    certDiv.style.display = 'block';
-
-    // ✅ PDF Options
     const opt = {
       margin: 0,
       filename: `${name}_Certificate.pdf`,
@@ -123,13 +143,10 @@
       jsPDF: { unit: 'in', format: [11, 8.5], orientation: 'landscape' }
     };
 
-    // ✅ Generate PDF and download
-    html2pdf().set(opt).from(certDiv).save().then(() => {
-      certDiv.style.display = 'none'; // hide after download
+    html2pdf().set(opt).from(element).save().then(() => {
+      element.style.display = 'none';
     });
   }
-</script>
-
 </script>
 
 </body>
