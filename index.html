@@ -106,22 +106,27 @@
   }
 
 function downloadCertificate() {
-  const element = document.getElementById('certificate');
-  element.style.display = 'block'; // 🔁 Make visible before capture
+  const name = localStorage.getItem('userName') || 'Participant';
+  const certDiv = document.getElementById('certificate');
+  document.getElementById('certName').innerText = name;
+
+  // ✅ Show the certificate
+  certDiv.style.display = 'block';
 
   const opt = {
-    margin:       0,
-    filename:     `${localStorage.getItem('userName')}_Certificate.pdf`,
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    margin: 0,
+    filename: `${name}_Certificate.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: [11, 8.5] } // Landscape
   };
 
-  html2pdf().set(opt).from(element).save().then(() => {
-    element.style.display = 'none'; // 🔁 Hide again after save
+  // ✅ Generate and save PDF
+  html2pdf().set(opt).from(certDiv).save().then(() => {
+    // ✅ Hide again
+    certDiv.style.display = 'none';
   });
 }
-
 </script>
 
 </body>
