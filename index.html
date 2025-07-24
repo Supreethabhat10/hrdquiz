@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Quiz App</title>
   <script src="libs/html2pdf.bundle.min.js"></script>
   <style>
@@ -40,15 +40,6 @@
       margin-bottom: 20px;
       text-align: left;
     }
-    #certificate {
-      display: none;
-      background-image: url('background.png');
-      background-size: cover;
-      width: 1100px;
-      height: 800px;
-      text-align: center;
-      padding-top: 300px;
-    }
   </style>
 </head>
 <body>
@@ -67,14 +58,6 @@
   <h2>Quiz Completed</h2>
   <p id="userScore"></p>
   <button class="btn" onclick="downloadCertificate()">Download Certificate</button>
-</div>
-
-<!-- Hidden Certificate Template -->
-<div id="certificate">
-  <h1 style="font-size: 40px;">Certificate of Completion</h1>
-  <p style="font-size: 24px;">Presented to</p>
-  <h2 id="certName" style="font-size: 36px; font-weight: bold;"></h2>
-  <p style="font-size: 20px;">for successfully completing the quiz</p>
 </div>
 
 <script>
@@ -127,55 +110,56 @@
     document.getElementById('resultBox').style.display = 'block';
 
     document.getElementById('userScore').innerText = `${name}, your score is ${score} / ${questions.length}`;
-    document.getElementById('certName').innerText = name;
   }
- function downloadCertificate() {
+
+  function downloadCertificate() {
     const name = localStorage.getItem('userName') || 'Participant';
     const score = localStorage.getItem('quizScore') || 0;
 
     generateCertificate(name, score);
   }
+
   function generateCertificate(name, score) {
-  const certContainer = document.createElement('div');
-  certContainer.style.position = "relative";
-  certContainer.style.width = "1086px";
-  certContainer.style.height = "768px";
-  certContainer.style.backgroundImage = "url('background.png')";
-  certContainer.style.backgroundSize = "cover";
-  certContainer.style.fontFamily = "Georgia, serif";
+    const certContainer = document.createElement('div');
+    certContainer.style.position = "relative";
+    certContainer.style.width = "1086px";
+    certContainer.style.height = "768px";
+    certContainer.style.backgroundImage = "url('background.png')";
+    certContainer.style.backgroundSize = "cover";
+    certContainer.style.fontFamily = "Georgia, serif";
 
-  const nameDiv = document.createElement('div');
-  nameDiv.style.position = "absolute";
-  nameDiv.style.top = "340px";
-  nameDiv.style.left = "0";
-  nameDiv.style.right = "0";
-  nameDiv.style.textAlign = "center";
-  nameDiv.style.fontSize = "28px";
-  nameDiv.style.fontWeight = "bold";
-  nameDiv.innerText = name;
-  certContainer.appendChild(nameDiv);
+    const nameDiv = document.createElement('div');
+    nameDiv.style.position = "absolute";
+    nameDiv.style.top = "340px";
+    nameDiv.style.left = "0";
+    nameDiv.style.right = "0";
+    nameDiv.style.textAlign = "center";
+    nameDiv.style.fontSize = "28px";
+    nameDiv.style.fontWeight = "bold";
+    nameDiv.innerText = name;
+    certContainer.appendChild(nameDiv);
 
-  const scoreDiv = document.createElement('div');
-  scoreDiv.style.position = "absolute";
-  scoreDiv.style.top = "400px";
-  scoreDiv.style.left = "0";
-  scoreDiv.style.right = "0";
-  scoreDiv.style.textAlign = "center";
-  scoreDiv.style.fontSize = "20px";
-  scoreDiv.innerText = `Score: ${score} / ${questions.length}`;
-  certContainer.appendChild(scoreDiv);
+    const scoreDiv = document.createElement('div');
+    scoreDiv.style.position = "absolute";
+    scoreDiv.style.top = "400px";
+    scoreDiv.style.left = "0";
+    scoreDiv.style.right = "0";
+    scoreDiv.style.textAlign = "center";
+    scoreDiv.style.fontSize = "20px";
+    scoreDiv.innerText = `Score: ${score} / ${questions.length}`;
+    certContainer.appendChild(scoreDiv);
 
-  html2pdf()
-    .from(certContainer)
-    .set({
-      margin: 0,
-      filename: `${name}_Certificate.pdf`,
-      image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'px', format: [1086, 768], orientation: 'landscape' }
-    })
-    .save();
-}
+    html2pdf()
+      .from(certContainer)
+      .set({
+        margin: 0,
+        filename: `${name}_Certificate.pdf`,
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'px', format: [1086, 768], orientation: 'landscape' }
+      })
+      .save();
+  }
 </script>
 
 </body>
