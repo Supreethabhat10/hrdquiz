@@ -110,17 +110,17 @@
     document.getElementById('resultBox').style.display = 'block';
 
     document.getElementById('userScore').innerText = `${name}, your score is ${score} / ${questions.length}`;
-      generateCertificate(name, score);
+      generateCertificate(name);
   }
 
   function downloadCertificate() {
     const name = localStorage.getItem('userName') || 'Participant';
-    const score = localStorage.getItem('quizScore') || 0;
+    
 
-    generateCertificate(name, score);
+    generateCertificate(name);
   }
 
-  function generateCertificate(name, score) {
+  function generateCertificate(name) {
     const certContainer = document.createElement('div');
     certContainer.style.position = "relative";
     certContainer.style.width = "1086px";
@@ -140,15 +140,7 @@
     nameDiv.innerText = name;
     certContainer.appendChild(nameDiv);
 
-    const scoreDiv = document.createElement('div');
-    scoreDiv.style.position = "absolute";
-    scoreDiv.style.top = "400px";
-    scoreDiv.style.left = "0";
-    scoreDiv.style.right = "0";
-    scoreDiv.style.textAlign = "center";
-    scoreDiv.style.fontSize = "20px";
-    scoreDiv.innerText = `Score: ${score} / ${questions.length}`;
-    certContainer.appendChild(scoreDiv);
+   
 
     html2pdf()
       .from(certContainer)
