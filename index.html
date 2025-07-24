@@ -129,7 +129,12 @@
     document.getElementById('userScore').innerText = `${name}, your score is ${score} / ${questions.length}`;
     document.getElementById('certName').innerText = name;
   }
+ function downloadCertificate() {
+    const name = localStorage.getItem('userName') || 'Participant';
+    const score = localStorage.getItem('quizScore') || 0;
 
+    generateCertificate(name, score);
+  }
   function generateCertificate(name, score) {
   const certContainer = document.createElement('div');
   certContainer.style.position = "relative";
