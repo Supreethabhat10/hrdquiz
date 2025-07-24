@@ -110,6 +110,7 @@
     document.getElementById('resultBox').style.display = 'block';
 
     document.getElementById('userScore').innerText = `${name}, your score is ${score} / ${questions.length}`;
+      generateCertificate(name, score);
   }
 
   function downloadCertificate() {
